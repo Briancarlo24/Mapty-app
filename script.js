@@ -65,6 +65,13 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
+const settingEdit = document.querySelectorAll('.setting-edit');
+const settingDelete = document.querySelectorAll('.setting-delete');
+const workoutSettings = document.querySelectorAll('.workout__settings');
+const workoutSettingsMenu = document.querySelectorAll(
+  '.workout__settings-menu'
+);
+
 class App {
   #map;
   #mapZoomLevel = 13;
@@ -80,8 +87,29 @@ class App {
 
     // Attach event handlers
     form.addEventListener('submit', this._newWorkout.bind(this));
+    // workoutSettings.addEventListener('click', function (e) {
+    // });
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+
+    // Settings
+    document.addEventListener('click', this.workoutSettings.bind(this));
+
+    // Edit
+    settingEdit.forEach(edit => {
+      edit.addEventListener('click', function (e) {
+        console.log(e.target);
+        alert('asdsa');
+      });
+    });
+
+    // Delete
+    settingDelete.forEach(del => {
+      del.addEventListener('click', function (e) {
+        console.log(e.target);
+        alert('delete');
+      });
+    });
   }
 
   _getPosition() {
@@ -161,10 +189,6 @@ class App {
       const cadence = +inputCadence.value;
       // Check if data is valid
       if (
-        // !Number.isFinite(distance) ||
-        // !Number.isFinite(duration) ||
-        // !Number.isFinite(cadence)
-
         // If validinput is not true
         !validInputs(distance, duration, cadence) ||
         !allPositive(distance, duration, cadence)
@@ -222,6 +246,13 @@ class App {
   _renderWorkout(workout) {
     let html = `
     <li class="workout workout--${workout.type}" data-id="${workout.id}">
+    <div class="workout__settings">
+    ...
+      <ul class="workout__settings-menu hide-menu">
+        <li class="setting setting-edit">Edit</li>
+        <li class="setting setting-delete">Delete</li>
+      </ul>
+    </div>
     <h2 class="workout__title">${workout.description}</h2>
     <div class="workout__details">
       <span class="workout__icon">${
@@ -300,9 +331,10 @@ class App {
   _getLocalStorage() {
     // JSON.parse = convers JSON STRING to Object
     const data = JSON.parse(localStorage.getItem('workouts'));
-
+    console.log(data);
     // If there's no data. simply return
     if (!data) return;
+
     // restores the data
     this.#workouts = data;
     this.#workouts.forEach(work => this._renderWorkout(work));
@@ -312,6 +344,27 @@ class App {
     localStorage.removeItem('workouts');
     location.reload();
   }
+
+  // const workoutEl = e.target.closest('.workout');
+
+  // if (!workoutEl) return;
+
+  // const workout = this.#workouts.find(
+  //   work => work.id === workoutEl.dataset.id
+  // );
+
+  workoutSettings(e) {
+    workoutSettings.forEach((el, i) => {
+      if (e.target === workoutSettings[i])
+        workoutSettingsMenu[i].classList.remove('hide-menu');
+      if (e.target !== workoutSettings[i])
+        workoutSettingsMenu[i].classList.add('hide-menu');
+    });
+  }
+
+  settingEdit(e) {}
+
+  settingDelete(e) {}
 }
 
 const app = new App();
