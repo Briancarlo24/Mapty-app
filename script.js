@@ -91,11 +91,13 @@ class App {
     form.addEventListener('submit', this._newWorkout.bind(this));
     // workoutSettings.addEventListener('click', function (e) {
     // });
+
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
 
     // Delete Workouts
     deleteWorkout.addEventListener('click', this.reset);
+
     // Settings
     document.addEventListener('click', this.workoutSettings.bind(this));
 
