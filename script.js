@@ -252,7 +252,7 @@ class App {
     <li class="workout workout--${workout.type}" data-id="${workout.id}">
     <div class="workout__settings">
     ...
-      <ul class="workout__settings-menu hide-menu" data-id="${workout.id}">
+      <ul class="workout__settings-menu hide-menu">
         <li class="setting setting-edit">Edit</li>
         <li class="setting setting-delete">Delete</li>
       </ul>
@@ -335,7 +335,6 @@ class App {
   _getLocalStorage() {
     // JSON.parse = convers JSON STRING to Object
     const data = JSON.parse(localStorage.getItem('workouts'));
-    console.log(data);
     // If there's no data. simply return
     if (!data) return;
 
@@ -343,7 +342,7 @@ class App {
     this.#workouts = data;
     this.#workouts.forEach(work => this._renderWorkout(work));
   }
-
+  // clears the data
   reset() {
     localStorage.removeItem('workouts');
     location.reload();
@@ -357,24 +356,14 @@ class App {
     //     workoutSettingsMenu[i].classList.add('hide-menu');
     // });
     document.querySelector('.workouts').addEventListener('click', function (e) {
-      const clicked = e.target.closest('.workout__settings');
-      if (!clicked) return;
+      const btnMenu = e.target.closest('.workout__settings');
 
-      // if (clicked) {
-      //   console.log('sad');
-      //   clicked.classList.remove('hide-menu');
-      // }
-      // [...clicked.parentElement.children].forEach(item => {
-      //   if (item !== clicked) {
-      //   }
-      // });
-
-      const menuEl = e.target.closest('.workout__settings-menu');
-      if (!menuEl) return;
-
-      document
-        .querySelector('.workout__settings-menu')
-        .classList.remove('hide-menu');
+      // show menu
+      if (e.target.classList.contains('workout__settings')) {
+        e.target
+          .querySelector('.workout__settings-menu')
+          .classList.toggle('hide-menu');
+      }
     });
   }
 
