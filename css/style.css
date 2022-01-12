@@ -191,6 +191,26 @@ a:visited {
   color: var(--color-light--2);
 }
 
+.btn {
+  width: 10rem;
+  height: 4rem;
+  margin: 2rem auto;
+  text-transform: capitalize;
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.487);
+  border: none;
+  transition: all 0.4s ease-in-out;
+}
+
+.btn:hover {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.816);
+  width: 100%;
+  background-color: rgb(187, 35, 35);
+  border-radius: 0.2rem;
+  box-shadow: 1rem 2rem 5rem var(--color-dark--1);
+}
+
 /* MAP */
 #map {
   flex: 1;

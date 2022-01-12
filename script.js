@@ -71,6 +71,8 @@ const workoutSettings = document.querySelectorAll('.workout__settings');
 const workoutSettingsMenu = document.querySelectorAll(
   '.workout__settings-menu'
 );
+const deleteWorkout = document.querySelector('.btn-delete');
+const setting = document.querySelector('.workout');
 
 class App {
   #map;
@@ -92,6 +94,8 @@ class App {
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
 
+    // Delete Workouts
+    deleteWorkout.addEventListener('click', this.reset);
     // Settings
     document.addEventListener('click', this.workoutSettings.bind(this));
 
@@ -248,7 +252,7 @@ class App {
     <li class="workout workout--${workout.type}" data-id="${workout.id}">
     <div class="workout__settings">
     ...
-      <ul class="workout__settings-menu hide-menu">
+      <ul class="workout__settings-menu hide-menu" data-id="${workout.id}">
         <li class="setting setting-edit">Edit</li>
         <li class="setting setting-delete">Delete</li>
       </ul>
@@ -345,20 +349,32 @@ class App {
     location.reload();
   }
 
-  // const workoutEl = e.target.closest('.workout');
-
-  // if (!workoutEl) return;
-
-  // const workout = this.#workouts.find(
-  //   work => work.id === workoutEl.dataset.id
-  // );
-
   workoutSettings(e) {
-    workoutSettings.forEach((el, i) => {
-      if (e.target === workoutSettings[i])
-        workoutSettingsMenu[i].classList.remove('hide-menu');
-      if (e.target !== workoutSettings[i])
-        workoutSettingsMenu[i].classList.add('hide-menu');
+    // workoutSettings.forEach((el, i) => {
+    //   if (e.target === workoutSettings[i])
+    //     workoutSettingsMenu[i].classList.remove('hide-menu');
+    //   if (e.target !== workoutSettings[i])
+    //     workoutSettingsMenu[i].classList.add('hide-menu');
+    // });
+    document.querySelector('.workouts').addEventListener('click', function (e) {
+      const clicked = e.target.closest('.workout__settings');
+      if (!clicked) return;
+
+      // if (clicked) {
+      //   console.log('sad');
+      //   clicked.classList.remove('hide-menu');
+      // }
+      // [...clicked.parentElement.children].forEach(item => {
+      //   if (item !== clicked) {
+      //   }
+      // });
+
+      const menuEl = e.target.closest('.workout__settings-menu');
+      if (!menuEl) return;
+
+      document
+        .querySelector('.workout__settings-menu')
+        .classList.remove('hide-menu');
     });
   }
 
